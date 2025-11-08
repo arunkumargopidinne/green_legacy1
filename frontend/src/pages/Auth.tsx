@@ -361,7 +361,8 @@ import { TreePine } from "lucide-react";
 const Auth = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [loading, setLoading] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [signupLoading, setSignupLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
 
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -381,7 +382,8 @@ const Auth = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    if (signupLoading) return; // Prevent login while signup is processing
+    setLoginLoading(true);
 
     try {
       await login(loginData.email, loginData.password);
@@ -393,7 +395,7 @@ const Auth = () => {
           error instanceof Error ? error.message : "Invalid credentials",
       });
     } finally {
-      setLoading(false);
+      setLoginLoading(false);
     }
   };
 
@@ -410,7 +412,8 @@ const Auth = () => {
       return;
     }
 
-    setLoading(true);
+    if (loginLoading) return; // Prevent signup while login is processing
+    setSignupLoading(true);
 
     try {
       const response = await signup(
@@ -419,24 +422,27 @@ const Auth = () => {
         signupData.password
       );
       
-      // Clear signup form and switch to login tab
+      // Store email temporarily
+      const registeredEmail = signupData.email;
+      
+      // Clear signup form
       setSignupData({ email: "", password: "", confirmPassword: "" });
-      setActiveTab("login");
       
       // Show success message
       toast.success("Account created successfully!", {
         description: "You can now log in with your credentials"
       });
 
-      // Pre-fill login form with the email
-      setLoginData(prev => ({ ...prev, email: signupData.email }));
+      // Switch to login tab and pre-fill email AFTER clearing signup form
+      setActiveTab("login");
+      setLoginData(prev => ({ ...prev, email: registeredEmail }));
     } catch (error) {
       toast.error("Signup failed", {
         description:
           error instanceof Error ? error.message : "Could not create account"
       });
     } finally {
-      setLoading(false);
+      setSignupLoading(false);
     }
   };
 
@@ -484,8 +490,8 @@ const Auth = () => {
                   required
                 />
               </div>
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Logging in..." : "Login"}
+              <Button type="submit" className="w-full" disabled={loginLoading || signupLoading}>
+                {loginLoading ? "Logging in..." : "Login"}
               </Button>
             </form>
           </TabsContent>
@@ -532,8 +538,8 @@ const Auth = () => {
                   required
                 />
               </div>
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Creating account..." : "Sign Up"}
+              <Button type="submit" className="w-full" disabled={loginLoading || signupLoading}>
+                {signupLoading ? "Creating account..." : "Sign Up"}
               </Button>
             </form>
           </TabsContent>
