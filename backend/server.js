@@ -127,7 +127,7 @@ app.post('/csr', async (req, res) => {
   }
 });
 
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await Signup.findOne({ email });
@@ -147,7 +147,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.post('/signup', async (req, res) => {
+app.post('/api/signup', async (req, res) => {
   const { name, email, password } = req.body;
   try {
     let user = await Signup.findOne({ email });
