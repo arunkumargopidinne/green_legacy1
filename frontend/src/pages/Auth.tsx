@@ -416,11 +416,17 @@ const Auth = () => {
     setSignupLoading(true);
 
     try {
+      console.log('Starting signup request...');
       const response = await signup(
         signupData.email.split("@")[0],
         signupData.email,
         signupData.password
       );
+      console.log('Signup response:', response);
+      
+      if (!response) {
+        throw new Error('No response from server');
+      }
       
       // Store email temporarily
       const registeredEmail = signupData.email;
@@ -437,10 +443,15 @@ const Auth = () => {
       setActiveTab("login");
       setLoginData(prev => ({ ...prev, email: registeredEmail }));
     } catch (error) {
+      console.error('Signup error:', error);
+      setSignupLoading(false); // Ensure loading state is cleared on error
+      
+      // More detailed error messaging
+      const errorMessage = error instanceof Error ? error.message : "Could not create account";
       toast.error("Signup failed", {
-        description:
-          error instanceof Error ? error.message : "Could not create account"
+        description: errorMessage
       });
+      return; // Exit early on error
     } finally {
       setSignupLoading(false);
     }

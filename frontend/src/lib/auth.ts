@@ -17,19 +17,29 @@ export const login = async (email, password) => {
 };
 
 export const signup = async (name, email, password) => {
-  const res = await fetch(`${API_URL}/api/signup`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, email, password }),
-  });
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(data?.error || "Could not create account");
+  console.log('Making signup request to:', `${API_URL}/api/signup`);
+  try {
+    const res = await fetch(`${API_URL}/api/signup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
+    
+    console.log('Signup response status:', res.status);
+    const data = await res.json();
+    console.log('Signup response data:', data);
+
+    if (!res.ok) {
+      throw new Error(data?.error || "Could not create account");
+    }
+
+    localStorage.setItem("token", data.token);
+    localStorage.removeItem("isSoftLoggedOut");
+    return data;
+  } catch (error) {
+    console.error('Signup request error:', error);
+    throw error;
   }
-  const data = await res.json();
-  localStorage.setItem("token", data.token);
-  localStorage.removeItem("isSoftLoggedOut");
-  return data;
 };
 
 export const logout = () => {
