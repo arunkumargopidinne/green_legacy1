@@ -413,20 +413,27 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      await signup(
+      const response = await signup(
         signupData.email.split("@")[0],
         signupData.email,
         signupData.password
       );
-      toast.success("Account created successfully!", {
-        description: "You can now log in with your credentials",
-      });
+      
+      // Clear signup form and switch to login tab
       setSignupData({ email: "", password: "", confirmPassword: "" });
-      setActiveTab("login"); // 👈 Switch to login tab after signup
+      setActiveTab("login");
+      
+      // Show success message
+      toast.success("Account created successfully!", {
+        description: "You can now log in with your credentials"
+      });
+
+      // Pre-fill login form with the email
+      setLoginData(prev => ({ ...prev, email: signupData.email }));
     } catch (error) {
       toast.error("Signup failed", {
         description:
-          error instanceof Error ? error.message : "Could not create account",
+          error instanceof Error ? error.message : "Could not create account"
       });
     } finally {
       setLoading(false);
