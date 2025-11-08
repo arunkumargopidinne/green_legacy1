@@ -180,9 +180,175 @@
 // };
 
 // export default Auth;
+// import { useState, useEffect } from "react";
+// import { useNavigate, useLocation } from "react-router-dom";
+// import { isLoggedIn } from "@/lib/auth";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+// import { Label } from "@/components/ui/label";
+// import { Card } from "@/components/ui/card";
+// import { PasswordInput } from "@/components/ui/password-input";
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import { toast } from "sonner";
+// import { TreePine } from "lucide-react";
+// import { login, signup } from "@/lib/auth";
+
+// const Auth = () => {
+//   const navigate = useNavigate();
+//   const [loading, setLoading] = useState(false);
+//   const [loginData, setLoginData] = useState({ email: "", password: "" });
+//   const [signupData, setSignupData] = useState({ email: "", password: "", confirmPassword: "" });
+//   const location = useLocation();
+  
+//   useEffect(() => {
+//     // Redirect to previous page or dashboard if already logged in
+//     if (isLoggedIn()) {
+//       const from = location.state?.from?.pathname || "/dashboard";
+//       navigate(from, { replace: true });
+//     }
+//   }, [navigate, location]);
+
+//   const handleLogin = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     setLoading(true);
+
+//     try {
+//       await login(loginData.email, loginData.password);
+//       toast.success("Successfully logged in!");
+//       navigate("/dashboard"); // Redirect to the dashboard after login
+//     } catch (error) {
+//       toast.error("Login failed", {
+//         description: error instanceof Error ? error.message : "Invalid credentials"
+//       });
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const handleSignup = async (e: React.FormEvent) => {
+//     e.preventDefault();
+    
+//     if (signupData.password !== signupData.confirmPassword) {
+//       toast.error("Passwords don't match");
+//       return;
+//     }
+
+//     if (signupData.password.length < 6) {
+//       toast.error("Password must be at least 6 characters");
+//       return;
+//     }
+
+//     setLoading(true);
+
+//     try {
+//       await signup(signupData.email.split('@')[0], signupData.email, signupData.password);
+//       toast.success("Account created successfully!", {
+//         description: "You can now log in with your credentials"
+//       });
+//       setSignupData({ email: "", password: "", confirmPassword: "" });
+//       navigate("/dashboard"); // Redirect to the dashboard after signup
+//     } catch (error) {
+//       toast.error("Signup failed", {
+//         description: error instanceof Error ? error.message : "Could not create account"
+//       });
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100 p-4">
+//       <Card className="w-full max-w-md p-8">
+//         <div className="flex items-center justify-center mb-6">
+//           <TreePine className="h-12 w-12 text-green-600" />
+//         </div>
+//         <h1 className="text-3xl font-heading font-bold text-center mb-2">GREEN LEGACY</h1>
+//         <p className="text-center text-muted-foreground mb-6">Admin Portal</p>
+
+//         <Tabs defaultValue="login" className="w-full">
+//           <TabsList className="grid w-full grid-cols-2">
+//             <TabsTrigger value="login">Login</TabsTrigger>
+//             <TabsTrigger value="signup">Sign Up</TabsTrigger>
+//           </TabsList>
+
+//           <TabsContent value="login">
+//             <form onSubmit={handleLogin} className="space-y-4">
+//               <div className="space-y-2">
+//                 <Label htmlFor="login-email">Email</Label>
+//                 <Input
+//                   id="login-email"
+//                   type="email"
+//                   placeholder="admin@greenlegacy.org"
+//                   value={loginData.email}
+//                   onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+//                   required
+//                 />
+//               </div>
+//               <div className="space-y-2">
+//                 <Label htmlFor="login-password">Password</Label>
+//                 <PasswordInput
+//                   id="login-password"
+//                   value={loginData.password}
+//                   onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+//                   required
+//                 />
+//               </div>
+//               <Button type="submit" className="w-full" disabled={loading}>
+//                 {loading ? "Logging in..." : "Login"}
+//               </Button>
+//             </form>
+//           </TabsContent>
+
+//           <TabsContent value="signup">
+//             <form onSubmit={handleSignup} className="space-y-4">
+//               <div className="space-y-2">
+//                 <Label htmlFor="signup-email">Email</Label>
+//                 <Input
+//                   id="signup-email"
+//                   type="email"
+//                   placeholder="admin@greenlegacy.org"
+//                   value={signupData.email}
+//                   onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+//                   required
+//                 />
+//               </div>
+//               <div className="space-y-2">
+//                 <Label htmlFor="signup-password">Password</Label>
+//                 <PasswordInput
+//                   id="signup-password"
+//                   placeholder="Min. 6 characters"
+//                   value={signupData.password}
+//                   onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+//                   required
+//                 />
+//               </div>
+//               <div className="space-y-2">
+//                 <Label htmlFor="confirm-password">Confirm Password</Label>
+//                 <PasswordInput
+//                   id="confirm-password"
+//                   value={signupData.confirmPassword}
+//                   onChange={(e) => setSignupData({ ...signupData, confirmPassword: e.target.value })}
+//                   required
+//                 />
+//               </div>
+//               <Button type="submit" className="w-full" disabled={loading}>
+//                 {loading ? "Creating account..." : "Sign Up"}
+//               </Button>
+//             </form>
+//           </TabsContent>
+//         </Tabs>
+//       </Card>
+//     </div>
+//   );
+// };
+
+// export default Auth;
+
+
+
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { isLoggedIn } from "@/lib/auth";
+import { isLoggedIn, login, signup } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -191,43 +357,49 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { TreePine } from "lucide-react";
-import { login, signup } from "@/lib/auth";
 
 const Auth = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [signupData, setSignupData] = useState({ email: "", password: "", confirmPassword: "" });
   const location = useLocation();
-  
+  const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("login");
+
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [signupData, setSignupData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   useEffect(() => {
-    // Redirect to previous page or dashboard if already logged in
+    // Redirect if already logged in
     if (isLoggedIn()) {
       const from = location.state?.from?.pathname || "/dashboard";
       navigate(from, { replace: true });
     }
   }, [navigate, location]);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
       await login(loginData.email, loginData.password);
       toast.success("Successfully logged in!");
-      navigate("/dashboard"); // Redirect to the dashboard after login
+      navigate("/dashboard");
     } catch (error) {
       toast.error("Login failed", {
-        description: error instanceof Error ? error.message : "Invalid credentials"
+        description:
+          error instanceof Error ? error.message : "Invalid credentials",
       });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSignup = async (e: React.FormEvent) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    
+
     if (signupData.password !== signupData.confirmPassword) {
       toast.error("Passwords don't match");
       return;
@@ -241,15 +413,20 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      await signup(signupData.email.split('@')[0], signupData.email, signupData.password);
+      await signup(
+        signupData.email.split("@")[0],
+        signupData.email,
+        signupData.password
+      );
       toast.success("Account created successfully!", {
-        description: "You can now log in with your credentials"
+        description: "You can now log in with your credentials",
       });
       setSignupData({ email: "", password: "", confirmPassword: "" });
-      navigate("/dashboard"); // Redirect to the dashboard after signup
+      setActiveTab("login"); // 👈 Switch to login tab after signup
     } catch (error) {
       toast.error("Signup failed", {
-        description: error instanceof Error ? error.message : "Could not create account"
+        description:
+          error instanceof Error ? error.message : "Could not create account",
       });
     } finally {
       setLoading(false);
@@ -262,15 +439,18 @@ const Auth = () => {
         <div className="flex items-center justify-center mb-6">
           <TreePine className="h-12 w-12 text-green-600" />
         </div>
-        <h1 className="text-3xl font-heading font-bold text-center mb-2">GREEN LEGACY</h1>
+        <h1 className="text-3xl font-heading font-bold text-center mb-2">
+          GREEN LEGACY
+        </h1>
         <p className="text-center text-muted-foreground mb-6">Admin Portal</p>
 
-        <Tabs defaultValue="login" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="login">Login</TabsTrigger>
             <TabsTrigger value="signup">Sign Up</TabsTrigger>
           </TabsList>
 
+          {/* LOGIN FORM */}
           <TabsContent value="login">
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
@@ -280,7 +460,9 @@ const Auth = () => {
                   type="email"
                   placeholder="admin@greenlegacy.org"
                   value={loginData.email}
-                  onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                  onChange={(e) =>
+                    setLoginData({ ...loginData, email: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -289,7 +471,9 @@ const Auth = () => {
                 <PasswordInput
                   id="login-password"
                   value={loginData.password}
-                  onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                  onChange={(e) =>
+                    setLoginData({ ...loginData, password: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -299,6 +483,7 @@ const Auth = () => {
             </form>
           </TabsContent>
 
+          {/* SIGNUP FORM */}
           <TabsContent value="signup">
             <form onSubmit={handleSignup} className="space-y-4">
               <div className="space-y-2">
@@ -308,7 +493,9 @@ const Auth = () => {
                   type="email"
                   placeholder="admin@greenlegacy.org"
                   value={signupData.email}
-                  onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, email: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -318,7 +505,9 @@ const Auth = () => {
                   id="signup-password"
                   placeholder="Min. 6 characters"
                   value={signupData.password}
-                  onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+                  onChange={(e) =>
+                    setSignupData({ ...signupData, password: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -327,7 +516,12 @@ const Auth = () => {
                 <PasswordInput
                   id="confirm-password"
                   value={signupData.confirmPassword}
-                  onChange={(e) => setSignupData({ ...signupData, confirmPassword: e.target.value })}
+                  onChange={(e) =>
+                    setSignupData({
+                      ...signupData,
+                      confirmPassword: e.target.value,
+                    })
+                  }
                   required
                 />
               </div>

@@ -32,7 +32,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchTrees = async () => {
       try {
-        const res = await fetch('http://localhost:5000/my-trees', {
+        const res = await fetch('https://green-legacy1.onrender.com/my-trees', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('token')}`,

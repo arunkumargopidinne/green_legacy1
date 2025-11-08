@@ -30,7 +30,7 @@ const GetInvolved = () => {
     e.preventDefault();
     try {
       const validated = volunteerSchema.parse(volunteerForm);
-      const res = await fetch("http://localhost:5000/volunteer", {
+      const res = await fetch("https://green-legacy1.onrender.com/volunteer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -72,7 +72,7 @@ const GetInvolved = () => {
         phone: csrForm.phone,
         message: csrForm.message
       });
-      const res = await fetch("http://localhost:5000/csr", {
+      const res = await fetch("https://green-legacy1.onrender.com/csr", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -108,8 +108,8 @@ const GetInvolved = () => {
   const exportToExcel = async (type: 'volunteers' | 'csr') => {
     try {
       const endpoint = type === 'volunteers' 
-        ? 'http://localhost:5000/export-volunteers' 
-        : 'http://localhost:5000/export-csrs';
+        ? 'https://green-legacy1.onrender.com/export-volunteers' 
+        : 'https://green-legacy1.onrender.com/export-csrs';
       const res = await fetch(endpoint);
       if (!res.ok) throw new Error('Failed to export');
       const blob = await res.blob();

@@ -61,7 +61,7 @@ const Payment = () => {
       const finalPaymentId = paymentType === 'upi' ? paymentId : `CARD_${Date.now()}`;
 
       // Record donation in backend
-      const res = await fetch('http://localhost:5000/donation', {
+      const res = await fetch('https://green-legacy1.onrender.com/donation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

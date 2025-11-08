@@ -21,7 +21,7 @@ const Contact = () => {
     e.preventDefault();
     try {
       const validated = contactSchema.parse(formData);
-      const res = await fetch("http://localhost:5000/contact", {
+      const res = await fetch("https://green-legacy1.onrender.com/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
