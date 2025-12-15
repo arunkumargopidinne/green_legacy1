@@ -43,7 +43,8 @@ export const signup = async (name, email, password) => {
 };
 
 export const logout = () => {
-  localStorage.setItem("isSoftLoggedOut", "true");
+  localStorage.removeItem("token");
+  localStorage.removeItem("isSoftLoggedOut");
 };
 
 export const getToken = () => {

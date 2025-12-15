@@ -20,9 +20,21 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://green-legacy1.onrender.com'],
+  credentials: true
+}));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`, {
+    body: req.body,
+    query: req.query
+  });
+  next()
+});
 
 // MongoDB connection
 const MONGO_URI = process.env.MONGO_URI;
@@ -148,9 +160,11 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.post('/api/signup', async (req, res) => {
+  console.log('Received signup request:', req.body);
   const { name, email, password } = req.body;
   try {
     let user = await Signup.findOne({ email });
+    console.log('Existing user check:', { exists: !!user });
     if (user) {
       return res.status(400).json({ error: 'User already exists' });
     }

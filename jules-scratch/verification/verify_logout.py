@@ -22,12 +22,12 @@ def run(playwright):
         page.wait_for_url("http://localhost:5173/")
         page.screenshot(path="jules-scratch/verification/02_logged_out.png")
 
-        # Verify the soft logout state
+        # Verify the hard logout state
         is_soft_logged_out = page.evaluate("() => localStorage.getItem('isSoftLoggedOut')")
         token_exists = page.evaluate("() => localStorage.getItem('token')")
 
-        assert is_soft_logged_out == 'true'
-        assert token_exists is not None
+        assert is_soft_logged_out is None
+        assert token_exists is None
 
     finally:
         browser.close()

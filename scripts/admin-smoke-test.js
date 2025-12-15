@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const axios = require('axios');
 
-const API_BASE = process.env.VITE_API_URL ? process.env.VITE_API_URL.replace(/\/$/, '') : (process.env.API_BASE || 'http://localhost:5000');
+const API_BASE = process.env.VITE_API_URL ? process.env.VITE_API_URL.replace(/\/$/, '') : (process.env.API_BASE || 'https://green-legacy1.onrender.com');
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || process.env.ADMIN_USER || '';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || process.env.ADMIN_PASS || '';
 
